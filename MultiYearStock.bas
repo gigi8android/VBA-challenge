@@ -6,14 +6,14 @@ Sub run_all_worksheets()
     Dim ws As Worksheet
     Dim first_ws As Worksheet
     Set first_ws = ActiveSheet 'set a current worksheet as first active worksheet in the beginning
-
+    
     ' Repeat calculating for all worksheets in the current workbook
     For Each ws In ThisWorkbook.Worksheets
         ws.Activate
         Call get_ticker_summary
         Call format_table
     Next
-        
+    
     first_ws.Activate 'reactivate the worksheet
 
 End Sub
@@ -86,11 +86,6 @@ Sub get_ticker_summary()
             ' Set next row as the current row
             outputRow = outputRow + 1
 
-            ' Reset open prices
-            openPrice = Cells(inputRow + 1, 3).Value
-            closePrice = 0
-            priceDiff = 0
-
             ' Capture the ticker with the highest increase & decrease value
             If (priceDiff_percent > maxPercent) Then
                 maxPercent = priceDiff_percent
@@ -106,7 +101,10 @@ Sub get_ticker_summary()
                 highestVolumeTicker = tickerName
             End If
             
-            ' Resetting counters for the next iteration
+            ' Reset variables
+            openPrice = Cells(inputRow + 1, 3).Value
+            closePrice = 0
+            priceDiff = 0
             priceDiff_percent = 0
             totalVolume = 0
         
